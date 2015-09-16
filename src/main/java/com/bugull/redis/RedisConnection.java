@@ -74,7 +74,7 @@ public class RedisConnection {
         if(mqClient == null){
             synchronized(this){
                 if(mqClient == null){
-                    mqClient = new MQClient(pool);
+                    mqClient = new MQClient();
                 }
             }
         }

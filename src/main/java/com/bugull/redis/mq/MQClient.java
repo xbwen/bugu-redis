@@ -16,6 +16,7 @@
 
 package com.bugull.redis.mq;
 
+import com.bugull.redis.RedisConnection;
 import com.bugull.redis.utils.Constant;
 import com.bugull.redis.exception.RedisException;
 import com.bugull.redis.listener.QueueListener;
@@ -53,8 +54,8 @@ public class MQClient {
     
     private final ConcurrentMap<String, ExecutorService> queueServices = new ConcurrentHashMap<String, ExecutorService>();
 
-    public MQClient(JedisPool pool){
-        this.pool = pool;
+    public MQClient(){
+        this.pool = RedisConnection.getInstance().getPool();
     }
     
     public void publish(String topic, byte[] message) throws RedisException {
