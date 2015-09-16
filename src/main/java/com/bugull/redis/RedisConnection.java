@@ -47,6 +47,10 @@ public class RedisConnection {
     private int database = Constant.DEFAULT_DATABASE;
     private String password;
     
+    private RedisConnection(){
+        
+    }
+    
     private static class Holder {
         final static RedisConnection instance = new RedisConnection();
     } 
