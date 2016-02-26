@@ -24,7 +24,7 @@ import org.junit.Test;
  *
  * @author Frank Wen(xbwen@hotmail.com)
  */
-public class StoreRecipeTest {
+public class SimpleStorageRecipeTest {
     
     @Test
     public void test() throws Exception {
@@ -36,13 +36,13 @@ public class StoreRecipeTest {
         String key = "x";
         String value = "y";
         
-        StoreRecipe store = new StoreRecipe();
+        SimpleStorageRecipe storage = new SimpleStorageRecipe();
         
-        Assert.assertNull(store.get(key.getBytes()));
+        Assert.assertNull(storage.get(key.getBytes()));
         
-        store.set(key, value);
+        storage.set(key, value);
         
-        Assert.assertEquals(value, store.get(key));
+        Assert.assertEquals(value, storage.get(key));
         
         conn.disconnect();
     }

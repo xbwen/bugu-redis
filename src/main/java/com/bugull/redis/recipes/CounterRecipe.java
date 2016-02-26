@@ -26,7 +26,7 @@ import redis.clients.jedis.JedisPool;
  *
  * @author Frank Wen(xbwen@hotmail.com)
  */
-public class CounterRecipe extends StringRecipe {
+public class CounterRecipe extends AbstractStringRecipe {
     
     public long getCount(String key) throws RedisException {
         String s = super.get(key);
@@ -51,6 +51,21 @@ public class CounterRecipe extends StringRecipe {
         return count;
     }
     
+    public long increaseBy(String key, long diffValue) throws RedisException {
+        long count = 0;
+        JedisPool pool = RedisConnection.getInstance().getPool();
+        Jedis jedis = null;
+        try{
+            jedis = pool.getResource();
+            count = jedis.incrBy(key, diffValue);
+        }catch(Exception ex){
+            throw new RedisException(ex.getMessage(), ex);
+        }finally{
+            JedisUtil.returnToPool(pool, jedis);
+        }
+        return count;
+    }
+    
     public long decrease(String key) throws RedisException {
         long count = 0;
         JedisPool pool = RedisConnection.getInstance().getPool();
@@ -58,6 +73,21 @@ public class CounterRecipe extends StringRecipe {
         try{
             jedis = pool.getResource();
             count = jedis.decr(key);
+        }catch(Exception ex){
+            throw new RedisException(ex.getMessage(), ex);
+        }finally{
+            JedisUtil.returnToPool(pool, jedis);
+        }
+        return count;
+    }
+    
+    public long decreaseBy(String key, long diffValue) throws RedisException {
+        long count = 0;
+        JedisPool pool = RedisConnection.getInstance().getPool();
+        Jedis jedis = null;
+        try{
+            jedis = pool.getResource();
+            count = jedis.decrBy(key, diffValue);
         }catch(Exception ex){
             throw new RedisException(ex.getMessage(), ex);
         }finally{

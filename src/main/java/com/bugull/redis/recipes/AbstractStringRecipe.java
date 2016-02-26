@@ -14,7 +14,7 @@ import redis.clients.jedis.JedisPool;
  *
  * @author Frank Wen(xbwen@hotmail.com)
  */
-public abstract class StringRecipe extends BaseRecipe {
+public abstract class AbstractStringRecipe extends BaseRecipe {
     
     public String get(String key) throws RedisException {
         byte[] bytes = get(key.getBytes());

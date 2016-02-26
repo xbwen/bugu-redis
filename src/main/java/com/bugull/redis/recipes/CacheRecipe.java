@@ -29,7 +29,7 @@ import redis.clients.jedis.Transaction;
  * 
  * @author Frank Wen(xbwen@hotmail.com)
  */
-public class CacheRecipe extends StringRecipe {
+public class CacheRecipe extends AbstractStringRecipe {
     
     public void put(String key, int expire, String data) throws RedisException {
         put(key.getBytes(), expire, data.getBytes());

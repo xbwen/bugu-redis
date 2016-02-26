@@ -14,7 +14,7 @@ import redis.clients.jedis.JedisPool;
  *
  * @author Frank Wen(xbwen@hotmail.com)
  */
-public abstract class ListRecipe extends BaseRecipe {
+public abstract class AbstractListRecipe extends BaseRecipe {
     
     public long getSize(String listName) throws RedisException {
         return getSize(listName.getBytes());

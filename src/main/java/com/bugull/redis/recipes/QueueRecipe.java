@@ -27,7 +27,7 @@ import redis.clients.jedis.JedisPool;
  * 
  * @author Frank Wen(xbwen@hotmail.com)
  */
-public class QueueRecipe extends ListRecipe {
+public class QueueRecipe extends AbstractListRecipe {
     
     public void offer(String queue, String element) throws RedisException {
         offer(queue.getBytes(), element.getBytes());

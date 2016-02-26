@@ -27,7 +27,7 @@ import redis.clients.jedis.JedisPool;
  * 
  * @author Frank Wen(xbwen@hotmail.com)
  */
-public class StackRecipe extends ListRecipe {
+public class StackRecipe extends AbstractListRecipe {
     
     public void push(String queue, String element) throws RedisException {
         push(queue.getBytes(), element.getBytes());

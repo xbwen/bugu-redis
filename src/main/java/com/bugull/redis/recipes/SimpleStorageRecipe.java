@@ -26,7 +26,7 @@ import redis.clients.jedis.JedisPool;
  *
  * @author Frank Wen(xbwen@hotmail.com)
  */
-public class StoreRecipe extends StringRecipe {
+public class SimpleStorageRecipe extends AbstractStringRecipe {
     
     public void set(String key, String data) throws RedisException {
         set(key.getBytes(), data.getBytes());

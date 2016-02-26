@@ -30,7 +30,7 @@ import redis.clients.jedis.Transaction;
  * 
  * @author Frank Wen(xbwen@hotmail.com)
  */
-public class LockRecipe extends StringRecipe {
+public class LockRecipe extends AbstractStringRecipe {
     
     public String acquireLock(String lockName) throws RedisException {
         return acquireLock(lockName, 5);
