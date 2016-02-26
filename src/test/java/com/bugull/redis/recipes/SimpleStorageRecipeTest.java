@@ -44,6 +44,8 @@ public class SimpleStorageRecipeTest {
         
         Assert.assertEquals(value, storage.get(key));
         
+        System.out.println("value:" + storage.get(key));
+        
         conn.disconnect();
     }
 

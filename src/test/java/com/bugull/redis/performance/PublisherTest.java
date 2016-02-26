@@ -53,7 +53,7 @@ public class PublisherTest {
         @Override
         public void run() {
             try{
-                for(int i=0; i<1000; i++){
+                for(int i=0; i<10; i++){
                     client.publish("my_topic", "hello".getBytes());
                 }
             }catch(Exception ex){
