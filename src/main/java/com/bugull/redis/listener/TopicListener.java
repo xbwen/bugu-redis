@@ -22,6 +22,7 @@ import com.bugull.redis.utils.Constant;
 import com.bugull.redis.exception.RedisException;
 import com.bugull.redis.utils.JedisUtil;
 import com.bugull.redis.utils.ThreadUtil;
+import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Executors;
@@ -86,7 +87,14 @@ public abstract class TopicListener extends BinaryJedisPubSub {
         if(JedisUtil.isEmpty(channel) || JedisUtil.isEmpty(message)){
             return;
         }
-        onTopicMessage(new String(channel), message);
+        //filter the heartbeat message
+        if(message.length==1 && Arrays.equals(message, Constant.HEART_BEAT)){
+            MQClient client = RedisConnection.getInstance().getMQClient();
+            ConcurrentMap<String, Long> lastMessageTime = client.getLastMessageTime();
+            lastMessageTime.put(new String(channel), System.currentTimeMillis());
+        }else{
+            onTopicMessage(new String(channel), message);
+        }
     }
 
     @Override
