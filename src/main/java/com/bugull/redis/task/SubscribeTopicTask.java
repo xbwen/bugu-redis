@@ -54,7 +54,7 @@ public class SubscribeTopicTask extends BlockedTask {
                 int idleTime = client.getIdleTime();
                 if(idleTime > 0){
                     scheduler = Executors.newSingleThreadScheduledExecutor();
-                    scheduler.scheduleAtFixedRate(new KeepJedisConnectionTask(jedis, new String(topic)), idleTime, idleTime, TimeUnit.SECONDS);
+                    scheduler.scheduleAtFixedRate(new CheckJedisConnectionTask(jedis, new String(topic)), idleTime, idleTime, TimeUnit.SECONDS);
                 }
                 
                 //the subscribe method is blocked.

@@ -28,12 +28,12 @@ import redis.clients.jedis.Jedis;
  *
  * @author Frank Wen(xbwen@hotmail.com)
  */
-public class KeepJedisConnectionTask implements Runnable {
+public class CheckJedisConnectionTask implements Runnable {
     
     private Jedis jedis;
     private String topic;
     
-    public KeepJedisConnectionTask(Jedis jedis, String topic){
+    public CheckJedisConnectionTask(Jedis jedis, String topic){
         this.jedis = jedis;
         this.topic = topic;
     }
@@ -53,7 +53,9 @@ public class KeepJedisConnectionTask implements Runnable {
         Long last = lastMessageTime.get(topic);
         if(last==null){
             lastMessageTime.put(topic, System.currentTimeMillis());
-        }else if(last + (2 * idleTime * 1000) < System.currentTimeMillis()){
+        }
+        // 2 times idleTime, plus 3 seconds offset
+        else if( (last + (2 * idleTime * 1000) + 3000) < System.currentTimeMillis() ){
             //disconnect jedis, the loop in SubscribeTopicTask will continue again
             lastMessageTime.remove(topic);
             jedis.disconnect();
