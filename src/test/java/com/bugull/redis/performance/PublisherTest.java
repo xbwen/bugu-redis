@@ -43,7 +43,7 @@ public class PublisherTest {
             new Thread(task).start();
         }
         
-        Thread.sleep(20L * 1000L);
+        Thread.sleep(30L * 1000L);
         
         conn.disconnect();
     }
@@ -53,7 +53,7 @@ public class PublisherTest {
         @Override
         public void run() {
             try{
-                for(int i=0; i<10; i++){
+                for(int i=0; i<3000; i++){
                     client.publish("my_topic", "hello".getBytes());
                 }
             }catch(Exception ex){

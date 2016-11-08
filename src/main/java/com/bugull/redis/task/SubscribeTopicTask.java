@@ -46,7 +46,7 @@ public class SubscribeTopicTask extends BlockedTask {
                 //if come here, shows that all topics have been unsubscirbed.
                 stopped = true;
             }catch(Exception ex){
-                //ignore ex
+                ex.printStackTrace();
             }finally{
                 JedisUtil.returnToPool(pool, jedis);
             }

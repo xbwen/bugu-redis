@@ -63,7 +63,7 @@ public class LockRecipe extends AbstractStringRecipe {
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException ex) {
-                    //ignore ex
+                    ex.printStackTrace();
                 }
             }
         }

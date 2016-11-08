@@ -30,7 +30,7 @@ public final class JedisUtil {
         try{
             pool.returnResource(jedis);
         }catch(JedisException ex){
-            //ignore ex
+            ex.printStackTrace();
         }
     }
     

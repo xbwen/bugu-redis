@@ -48,9 +48,9 @@ public class SubscriberTest {
                 long value = count.incrementAndGet();
                 if(value==1){
                     beginTime = System.currentTimeMillis();
-                }else if(value==100){
+                }else if(value==30000){
                     endTime = System.currentTimeMillis();
-                    System.out.println("use " + (endTime - beginTime) + "ms to receive 10000 messages.");
+                    System.out.println("use " + (endTime - beginTime) + "ms to receive 30000 messages.");
                 }
             }
         };

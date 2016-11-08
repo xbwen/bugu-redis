@@ -56,7 +56,7 @@ public abstract class TopicListener extends BinaryJedisPubSub {
                 try{
                     client.unsubscribe(topic);
                 }catch(RedisException ex){
-                    //ignore ex
+                    ex.printStackTrace();
                 }
                 client.subscribe(topic);
             }
@@ -105,7 +105,7 @@ public abstract class TopicListener extends BinaryJedisPubSub {
             jedis = pool.getResource();
             retainMessage = jedis.get((Constant.RETAIN + s).getBytes());
         }catch(Exception ex){
-            //ignore ex
+            ex.printStackTrace();
         }finally{
             JedisUtil.returnToPool(pool, jedis);
         }

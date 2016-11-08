@@ -332,7 +332,7 @@ public class MQClient {
                 try{
                     task.getJedis().disconnect();
                 }catch(Exception ex){
-                    //ignore ex
+                    ex.printStackTrace();
                 }
                 blockedTasks.remove(queue);
             }
@@ -368,7 +368,7 @@ public class MQClient {
             try{
                 task.getJedis().disconnect();
             }catch(Exception ex){
-                //ignore ex
+                ex.printStackTrace();
             }
             blockedTasks.remove(topic);
         }
