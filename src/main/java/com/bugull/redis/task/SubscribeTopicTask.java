@@ -16,14 +16,8 @@
 
 package com.bugull.redis.task;
 
-import com.bugull.redis.RedisConnection;
 import com.bugull.redis.listener.TopicListener;
-import com.bugull.redis.mq.MQClient;
 import com.bugull.redis.utils.JedisUtil;
-import com.bugull.redis.utils.ThreadUtil;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import redis.clients.jedis.JedisPool;
 
 /**
@@ -35,8 +29,6 @@ public class SubscribeTopicTask extends BlockedTask {
     private TopicListener listener;
     private JedisPool pool;
     private byte[] topic;
-    
-    private ScheduledExecutorService scheduler; //scheduler to check if jedis is connected.
 
     public SubscribeTopicTask(TopicListener listener, JedisPool pool, byte[] topic) {
         this.listener = listener;
@@ -50,13 +42,6 @@ public class SubscribeTopicTask extends BlockedTask {
             try{
                 jedis = pool.getResource();
                 
-                MQClient client = RedisConnection.getInstance().getMQClient();
-                int idleTime = client.getIdleTime();
-                if(idleTime > 0){
-                    scheduler = Executors.newSingleThreadScheduledExecutor();
-                    scheduler.scheduleAtFixedRate(new CheckJedisConnectionTask(jedis, new String(topic)), idleTime, idleTime, TimeUnit.SECONDS);
-                }
-                
                 //the subscribe method is blocked.
                 jedis.subscribe(listener, topic);
                 
@@ -65,7 +50,6 @@ public class SubscribeTopicTask extends BlockedTask {
             }catch(Exception ex){
                 ex.printStackTrace();
             }finally{
-                ThreadUtil.safeClose(scheduler);
                 JedisUtil.returnToPool(pool, jedis);
             }
         }

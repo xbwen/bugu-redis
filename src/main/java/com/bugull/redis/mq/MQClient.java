@@ -53,21 +53,9 @@ public class MQClient {
     private final ConcurrentMap<String, ExecutorService> topicServices = new ConcurrentHashMap<String, ExecutorService>();
     
     private final ConcurrentMap<String, ExecutorService> queueServices = new ConcurrentHashMap<String, ExecutorService>();
-    
-    private int idleTime;  //in seconds
-    
-    private final ConcurrentMap<String, Long> lastMessageTime = new ConcurrentHashMap<String, Long>();
 
     public MQClient(){
         this.pool = RedisConnection.getInstance().getPool();
-    }
-    
-    public void setIdleTime(int idleTime){
-        this.idleTime = idleTime;
-    }
-    
-    public int getIdleTime(){
-        return idleTime;
     }
     
     public void publish(String topic, byte[] message) throws RedisException {
@@ -129,7 +117,6 @@ public class MQClient {
                     blockedTasks.putIfAbsent(topic, task);
                 }
             }
-            topicListener.addTimer(topic);
         }
     }
     
@@ -140,7 +127,6 @@ public class MQClient {
             }catch(Exception ex){
                 throw new RedisException(ex.getMessage(), ex);
             }
-            topicListener.removeTimer(topic);
             stopTopicTask(topic);
         }
     }
@@ -368,9 +354,6 @@ public class MQClient {
         for(String topic : set){
             stopTopicTask(topic);
         }
-        if(topicListener != null){
-            topicListener.closeAllTimer();
-        }
     }
     
     private void stopTopicTask(String topic){
@@ -389,10 +372,6 @@ public class MQClient {
             topicServices.remove(topic);
             ThreadUtil.safeClose(es);
         }
-    }
-
-    public ConcurrentMap<String, Long> getLastMessageTime() {
-        return lastMessageTime;
     }
     
 }
