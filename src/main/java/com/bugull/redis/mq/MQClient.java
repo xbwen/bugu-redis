@@ -354,6 +354,7 @@ public class MQClient {
         for(String topic : set){
             stopTopicTask(topic);
         }
+        topicListener.closeScheduler();
     }
     
     private void stopTopicTask(String topic){
@@ -372,6 +373,10 @@ public class MQClient {
             topicServices.remove(topic);
             ThreadUtil.safeClose(es);
         }
+    }
+    
+    public BlockedTask getBlockedTask(String s){
+        return blockedTasks.get(s);
     }
     
 }

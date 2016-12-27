@@ -33,34 +33,21 @@ public class PublisherTest {
     @Test
     public void testPublish() throws Exception {
         conn = RedisConnection.getInstance();
-        conn.setHost("127.0.0.1");
+        conn.setHost("192.168.0.200");
         conn.setPassword("foobared");
         conn.connect();
         
         client = conn.getMQClient();
-        for(int i=0; i<10; i++){
-            PublishTask task = new PublishTask();
-            new Thread(task).start();
-        }
-        
-        Thread.sleep(30L * 1000L);
-        
-        conn.disconnect();
-    }
-    
-    class PublishTask implements Runnable {
-
-        @Override
-        public void run() {
+        for(int i=0; i<100; i++){
             try{
-                for(int i=0; i<3000; i++){
-                    client.publish("my_topic", "hello".getBytes());
-                }
+                client.publish("my_topic", "hello".getBytes());
             }catch(Exception ex){
                 ex.printStackTrace();
             }
+            Thread.sleep(3000);
         }
         
+        conn.disconnect();
     }
 
 }

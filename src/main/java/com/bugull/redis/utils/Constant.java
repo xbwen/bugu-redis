@@ -39,5 +39,6 @@ public final class Constant {
     
     //for idle
     public static final byte[] HEART_BEAT = {0x00};
+    public static final int HEART_BEAT_TIME = 6;  //in seconds
     
 }

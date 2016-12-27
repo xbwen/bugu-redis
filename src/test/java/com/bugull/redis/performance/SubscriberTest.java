@@ -29,14 +29,10 @@ import org.junit.Test;
  */
 public class SubscriberTest {
     
-    AtomicLong count = new AtomicLong(0);
-    
-    long beginTime, endTime;
-    
     @Test
     public void testSubscribe() throws Exception {
         RedisConnection conn = RedisConnection.getInstance();
-        conn.setHost("127.0.0.1");
+        conn.setHost("192.168.0.200");
         conn.setPassword("foobared");
         conn.connect();
         
@@ -45,13 +41,7 @@ public class SubscriberTest {
         TopicListener listener = new TopicListener(){
             @Override
             public void onTopicMessage(String topic, byte[] message) {
-                long value = count.incrementAndGet();
-                if(value==1){
-                    beginTime = System.currentTimeMillis();
-                }else if(value==30000){
-                    endTime = System.currentTimeMillis();
-                    System.out.println("use " + (endTime - beginTime) + "ms to receive 30000 messages.");
-                }
+                System.out.println("receive message: " + new String(message));
             }
         };
         
@@ -61,7 +51,7 @@ public class SubscriberTest {
         
         System.out.println("Subscribe success! Listening message...");
         
-        Thread.sleep(30L * 1000L);
+        Thread.sleep(5 * 60L * 1000L);
         
         conn.disconnect();
     }
