@@ -54,7 +54,7 @@ public class ConsumeQueueTask extends BlockedTask {
                     }
                 }
             }catch(Exception ex){
-                //ex.printStackTrace();
+                ex.printStackTrace();
             }finally{
                 JedisUtil.returnToPool(pool, jedis);
             }
